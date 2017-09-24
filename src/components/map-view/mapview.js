@@ -39,7 +39,7 @@ const MapWithControlledZoom = compose(
     zoom={props.zoom}
     ref={props.onMapMounted}
     onZoomChanged={props.onZoomChanged}
-    onClick={props.rootClick}
+    onClick={props.rootClick.bind(this,props)}
   >
   	{props.positions.map((position)=>{
   		return( 
@@ -73,16 +73,30 @@ class MapView extends Component {
 
 	render(){
 		return (
-			<MapWithControlledZoom positions={this.state.positions} location={this.props.lat,this.props.lng} rootClick={this.props.mapClicked}/>
+			<MapWithControlledZoom positions={this.state.positions} addLocation={this.addLocations.bind(this)} rootClick={this.rootClicked}/>
 		)
 	}
 
-	addPosition(position){
-		this.setState({
-			positions: this.state.positions.push(position)
-		})
+	rootClicked(props,p){	
+		console.log(props.positions)
+		props.addLocation(p)
 	}
 
+	addLocations(p){
+		console.log(this.state.positions)
+		var positions = this.state.positions;
+
+		positions.push(
+			{
+				lat: p.latLng.lat(),
+				lng: p.latLng.lng()
+			}
+		)
+		
+		this.setState({
+			positions: positions 
+		})
+	}
 }
 
 export default MapView;
