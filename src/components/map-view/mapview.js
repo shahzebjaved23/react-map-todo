@@ -39,19 +39,24 @@ const MapWithControlledZoom = compose(
     zoom={props.zoom}
     ref={props.onMapMounted}
     onZoomChanged={props.onZoomChanged}
+    onClick={props.rootClick}
   >
-    <Marker
-      position={{ lat: -34.397, lng: 150.644 }}
-      onClick={props.onToggleOpen}
-    >
-      <InfoWindow onCloseClick={props.onToggleOpen}>
-        <div>
-          <FaAnchor />
-          {" "}
-          Controlled zoom: {props.zoom}
-        </div>
-      </InfoWindow>
-    </Marker>
+  	{props.positions.map((position)=>{
+  		return( 
+	  		<Marker
+		      position={{ lat: position.lat, lng: position.lng }}
+		      onClick={props.onToggleOpen}>
+		      <InfoWindow onCloseClick={props.onToggleOpen}>
+		        <div>
+		          <FaAnchor />
+		          {" "}
+		          Controlled zoom: {props.zoom}
+		        </div>
+		      </InfoWindow>
+		    </Marker>
+		)
+  	})}
+    
   </GoogleMap>
 );
 
@@ -60,15 +65,22 @@ class MapView extends Component {
 	constructor(){
 		super();
 		this.state = {
-			lat: 0,
-			lng: 0
+			positions: [
+				{ lat: -34.397, lng: 150.644 }
+			]
 		}
 	}
 
 	render(){
 		return (
-			<MapWithControlledZoom location={this.props.lat,this.props.lng} rootClick={this.props.mapClicked}/>
+			<MapWithControlledZoom positions={this.state.positions} location={this.props.lat,this.props.lng} rootClick={this.props.mapClicked}/>
 		)
+	}
+
+	addPosition(position){
+		this.setState({
+			positions: this.state.positions.push(position)
+		})
 	}
 
 }
