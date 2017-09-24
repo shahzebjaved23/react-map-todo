@@ -14,9 +14,9 @@ import {
 const MapWithControlledZoom = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `70%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `70%` }} />,
+    loadingElement: <div style={{ height: `100%` }} />,
+    containerElement: <div style={{ height: `300px` }} />,
+    mapElement: <div style={{ height: `100%` }} />,
   }),
   withState('zoom', 'onZoomChange', 8),
   withHandlers(() => {
@@ -53,7 +53,7 @@ const MapWithControlledZoom = compose(
 		        <div>
 		          <FaAnchor />
 		          {" "}
-		          {position.name}
+		          <span style={props.selected.name == position.name ? {backgroundColor: "red"} : null}>{position.name}</span>
 		          </div>
 		      </InfoWindow>
 		    </Marker>
@@ -71,14 +71,14 @@ class MapView extends Component {
 			positions: [
 				{ lat: -34.397, lng: 150.644 , name: "center"}
 			],
-			selected: null
+			selected: { lat: -34.397, lng: 150.644 , name: ""}
 		}
 		localStorage.setItem("positions",JSON.stringify(this.state.positions));
 	}
 
 	render(){
 		return (
-			<MapWithControlledZoom saveButtonClicked={this.saveButtonClicked} cancelButtonClicked={this.cancelButtonClicked} positions={this.state.positions} addLocation={this.addLocations.bind(this)} rootClick={this.rootClicked}/>
+			<MapWithControlledZoom selected={this.state.selected} saveButtonClicked={this.saveButtonClicked} cancelButtonClicked={this.cancelButtonClicked} positions={this.state.positions} addLocation={this.addLocations.bind(this)} rootClick={this.rootClicked}/>
 		)
 	}
 
@@ -88,8 +88,16 @@ class MapView extends Component {
 		props.addLocation(p)
 	}
 
+	onLocationSelected(location){
+		console.log(location)
+		this.setState({
+			selected: location
+		})
+	}
+
 	addLocations(p){
 		this.props.mapClicked(p);
+		this.props.eventEmitter.on("selected",this.onLocationSelected.bind(this))
 		var name = window.prompt("enter the location name");
 		var positions = this.state.positions;
 		

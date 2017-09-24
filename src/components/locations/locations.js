@@ -25,7 +25,7 @@ class Location extends Component{
 			<div>
 				{
 					this.state.locations.map((location)=>{
-						return (<LocationView location={location}></LocationView>)
+						return (<LocationView eventEmitter={this.props.eventEmitter} location={location}></LocationView>)
 					})
 				}
 			</div>
