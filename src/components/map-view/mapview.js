@@ -50,6 +50,7 @@ const MapWithControlledZoom = compose(
 		        <div>
 		          <FaAnchor />
 		          {" "}
+		          {position.name}
 		          </div>
 		      </InfoWindow>
 		    </Marker>
@@ -65,9 +66,9 @@ class MapView extends Component {
 		super();
 		this.state = {
 			positions: [
-				{ lat: -34.397, lng: 150.644 }
+				{ lat: -34.397, lng: 150.644 , name: "center"}
 			],
-			selected: nil
+			selected: null
 		}
 	}
 
@@ -85,12 +86,14 @@ class MapView extends Component {
 
 	addLocations(p){
 		this.props.mapClicked();
+		var name = window.prompt("enter the location name");
 		var positions = this.state.positions;
 
 		positions.push(
 			{
 				lat: p.latLng.lat(),
-				lng: p.latLng.lng()
+				lng: p.latLng.lng(),
+				name: name
 			}
 		)
 		
