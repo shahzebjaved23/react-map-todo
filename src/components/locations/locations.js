@@ -2,13 +2,29 @@ import React, {Component} from "react";
 import LocationView from "../location-view/location-view";
 
 class Location extends Component{
-	render(){
-		var locations = JSON.parse(localStorage.getItem("positions"));
 
+	constructor(){
+		super();
+		this.state = {
+			locations: JSON.parse(localStorage.getItem("positions"))
+		}
+	}
+
+	reloadPositions(){
+		console.log("reloadPositions")
+		this.setState({
+			locations: JSON.parse(localStorage.getItem("positions"))
+		})
+	}
+
+	render(){
+
+		this.props.eventEmitter.on("clicked",this.reloadPositions.bind(this))
+		
 		return (
 			<div>
 				{
-					locations.map((location)=>{
+					this.state.locations.map((location)=>{
 						return (<LocationView location={location}></LocationView>)
 					})
 				}

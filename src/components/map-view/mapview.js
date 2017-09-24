@@ -9,6 +9,8 @@ import {
   InfoWindow,
 } from "react-google-maps";
 
+
+
 const MapWithControlledZoom = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
@@ -87,22 +89,23 @@ class MapView extends Component {
 	}
 
 	addLocations(p){
-		this.props.mapClicked();
+		this.props.mapClicked(p);
 		var name = window.prompt("enter the location name");
 		var positions = this.state.positions;
-
-		positions.push(
-			{
-				lat: p.latLng.lat(),
-				lng: p.latLng.lng(),
-				name: name
-			}
-		)
+		
+		var position = {
+			lat: p.latLng.lat(),
+			lng: p.latLng.lng(),
+			name: name
+		}
+		
+		positions.push(position)
 		
 		this.setState({
 			positions: positions 
 		})
 		localStorage.setItem("positions",JSON.stringify(this.state.positions));
+		this.props.eventEmitter.emit("clicked",position)
 	}
 
 }

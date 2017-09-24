@@ -3,20 +3,20 @@ import React, { Component } from 'react';
 import './App.css';
 import MapView from "./components/map-view/mapview";
 import Locations from "./components/locations/locations";
+import EventEmitter from 'eventemitter3';
 
 class App extends Component {
+
   constructor(){
     super();
-    this.state = {
-
-    }
+    this.eventEmitter = new EventEmitter();
   }
-
+  
   render() {
     return (
       <div>
-        <MapView mapClicked={this.mapClicked.bind(this)}></MapView>
-        <Locations></Locations>
+        <MapView eventEmitter={this.eventEmitter} mapClicked={this.mapClicked.bind(this)}></MapView>
+        <Locations setLocations={this.mapClicked.bind(this)} eventEmitter={this.eventEmitter}></Locations>
       </div>
     )
   }
