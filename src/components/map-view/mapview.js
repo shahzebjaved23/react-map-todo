@@ -77,9 +77,25 @@ class MapView extends Component {
 	}
 
 	render(){
+		this.props.eventEmitter.on("remove",this.removeLocation.bind(this))
 		return (
 			<MapWithControlledZoom selected={this.state.selected} saveButtonClicked={this.saveButtonClicked} cancelButtonClicked={this.cancelButtonClicked} positions={this.state.positions} addLocation={this.addLocations.bind(this)} rootClick={this.rootClicked}/>
 		)
+	}
+
+	removeLocation(p){
+		var locations = JSON.parse(localStorage.getItem("positions"))
+		var newLocations = []
+		locations.map((location)=>{
+			if(location.name != p.name){
+				newLocations.push(location)
+			}
+		})
+
+		this.setState({
+			positions: newLocations
+		})
+		localStorage.setItem("positions",JSON.stringify(this.state.positions));
 	}
 
 	// run in the GoogleMap context

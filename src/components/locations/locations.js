@@ -23,11 +23,14 @@ class Location extends Component{
 		
 		return (
 			<div>
+				<h3 style={{textAlign: "center"}}>Places To Go</h3>
+				<ul className="list-group" style={{textAlign: "center", width: 500+"px", margin: "auto"}}> 
 				{
 					this.state.locations.map((location)=>{
 						return (<LocationView eventEmitter={this.props.eventEmitter} location={location}></LocationView>)
 					})
 				}
+				</ul>
 			</div>
 		)	
 	}
