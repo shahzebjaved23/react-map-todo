@@ -12,7 +12,7 @@ import {
 const MapWithControlledZoom = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
+    loadingElement: <div style={{ height: `70%` }} />,
     containerElement: <div style={{ height: `400px` }} />,
     mapElement: <div style={{ height: `70%` }} />,
   }),
@@ -39,13 +39,14 @@ const MapWithControlledZoom = compose(
     zoom={props.zoom}
     ref={props.onMapMounted}
     onZoomChanged={props.onZoomChanged}
-    onClick={props.rootClick.bind(this,props)}
+    onDblClick={props.rootClick.bind(this,props)}
   >
-  	{props.positions.map((position)=>{
+  	{props.positions.map((position,index)=>{
   		return( 
 	  		<Marker
 		      position={{ lat: position.lat, lng: position.lng }}
-		      onClick={props.onToggleOpen}>
+		      onClick={props.onToggleOpen}
+		      key={index}>
 		      <InfoWindow onCloseClick={props.onToggleOpen}>
 		        <div>
 		          <FaAnchor />
@@ -70,6 +71,7 @@ class MapView extends Component {
 			],
 			selected: null
 		}
+		localStorage.setItem("positions",JSON.stringify(this.state.positions));
 	}
 
 	render(){
@@ -100,10 +102,7 @@ class MapView extends Component {
 		this.setState({
 			positions: positions 
 		})
-	}
-
-	saveButtonClicked(refs){
-		console.log(refs.refs)
+		localStorage.setItem("positions",JSON.stringify(this.state.positions));
 	}
 
 }
