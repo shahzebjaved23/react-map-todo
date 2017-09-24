@@ -84,18 +84,9 @@ class MapView extends Component {
 	}
 
 	removeLocation(p){
-		var locations = JSON.parse(localStorage.getItem("positions"))
-		var newLocations = []
-		locations.map((location)=>{
-			if(location.name != p.name){
-				newLocations.push(location)
-			}
-		})
-
 		this.setState({
-			positions: newLocations
+			positions: JSON.parse(localStorage.getItem("positions"))
 		})
-		localStorage.setItem("positions",JSON.stringify(this.state.positions));
 	}
 
 	// run in the GoogleMap context

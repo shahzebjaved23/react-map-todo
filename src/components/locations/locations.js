@@ -20,6 +20,7 @@ class Location extends Component{
 	render(){
 
 		this.props.eventEmitter.on("clicked",this.reloadPositions.bind(this))
+		this.props.eventEmitter.on("remove",this.reloadPositions.bind(this))
 		
 		return (
 			<div>

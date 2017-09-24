@@ -7,6 +7,14 @@ class LocationView extends Component{
 	}
 
 	removePosition(){
+		var locations = JSON.parse(localStorage.getItem("positions"))
+		var newLocations = []
+		locations.forEach((location)=>{
+			if(location.name != this.props.location.name){
+				newLocations.push(location)
+			}
+		})
+		localStorage.setItem("positions",JSON.stringify(newLocations))
 		this.props.eventEmitter.emit("remove",this.props.location)
 	}
 
