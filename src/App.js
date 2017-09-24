@@ -6,7 +6,7 @@ import MapView from "./components/map-view/mapview";
 class App extends Component {
   render() {
     return (
-      <MapView></MapView>
+      <MapView mapClicked={this.mapClicked.bind(this)}></MapView>
     )
     // return (
     //   <div className="App">
@@ -19,6 +19,10 @@ class App extends Component {
     //     </p>
     //   </div>
     // );
+  }
+
+  mapClicked(p){
+      console.log(p)
   }
 }
 
