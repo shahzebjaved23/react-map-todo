@@ -37,7 +37,7 @@ const MapWithControlledZoom = compose(
   withGoogleMap
 )(props =>
   <GoogleMap
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+    defaultCenter={{ lat: props.selected.lat, lng: props.selected.lng }}
     zoom={props.zoom}
     ref={props.onMapMounted}
     onZoomChanged={props.onZoomChanged}
